@@ -42,6 +42,18 @@ class Rectangle:
     def __repr__(self):
         return f"Rectangle(lower_left={self.LL}, upper_right={self.UR}"
 
+    def area(self):
+        '''TODO: validate that this won't be negative
+        '''
+        width = self.UR.x - self.LL.x
+        height = self.UR.y - self.LL.y 
+        return width * height
+
+
+    def contains(self, new_point: "Point"):
+        within_x = (self.LL.x <= new_point.x <= self.UR.x)
+        within_y = (self.LL.y <= new_point.y <= self.UR.y)
+        return within_y and within_y
 
 
 
@@ -55,3 +67,11 @@ if __name__ == "__main__":
 
     rect = Rectangle(lower_left = p1, upper_right = p2)
     print(rect)
+    p3 = Point(4, 8)
+    print(f"Is {p3} within this rectangle??")
+    print(rect.contains(p3))
+
+    p4 = Point(0, 0)
+    print(f"Is {p4} within this rectangle??")
+    print(rect.contains(p4))
+
