@@ -1,4 +1,6 @@
 import math
+import turtle
+
 
 class Point:
 
@@ -22,6 +24,25 @@ class Point:
         return math.sqrt(dist_squared)
 
 
+class VisualPoint(Point):
+
+    def __init__(self, x:float, y:float, size:int, hex_code:str = "#002676"):
+        super().__init__(x, y)
+        self.size = size
+        self.color = hex_code
+
+
+    def draw(self, canvas:turtle.Turtle):
+
+        canvas.penup()
+        canvas.goto(x = self.x, y = self.y)
+        canvas.pendown()
+
+        canvas.color(self.color)
+        canvas.dot(size = self.size)
+    
+
+
 
 class Rectangle:
 
@@ -30,6 +51,8 @@ class Rectangle:
         self.UR = upper_right
         self.LR = Point(x = self.UR.x, y = self.LL.y)
         self.UL = Point(x = self.LL.x, y = self.UR.y)
+        self.width = self.UR.x - self.LL.x
+        self.height = self.UR.y - self.LL.y 
 
 
     def __str__(self):
@@ -45,9 +68,7 @@ class Rectangle:
     def area(self):
         '''TODO: validate that this won't be negative
         '''
-        width = self.UR.x - self.LL.x
-        height = self.UR.y - self.LL.y 
-        return width * height
+        return self.width * self.height
 
 
     def contains(self, new_point: "Point"):
@@ -56,22 +77,42 @@ class Rectangle:
         return within_y and within_y
 
 
+class VisualRectangle(Rectangle):
+
+    '''VisualRectangle is a Rectangle that can draw itself on a Turtle canvas.
+    In other words, it extends the rectangle class with methods that allow it 
+    to draw itself on an externally provided canvas. 
+    '''
+
+    def __init__(self, lower_left:"Point", upper_right: "Point"):
+        '''If you aren't changing anything, it isn't actually necessary to 
+        provide this. Just wanted to practice 
+        '''
+        super().__init__(lower_left, upper_right)
+        
+
+    def draw(self, canvas:turtle.Turtle):
+        
+        canvas.penup()
+        canvas.goto(x = self.LL.x, y = self.LL.y)
+        canvas.pendown()
+
+        for i in range(2):
+            canvas.forward(self.width)
+            canvas.left(90)
+            canvas.forward(self.height)
+            canvas.left(90)
+
+        
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
 
-    p1 = Point(3, 5)
-    print(p1)
-    p2 = Point(6, 9)
-    dist = p1.distance_from(new_point = p2)
-    print(f"Distance between two points: {dist}")
-
-    rect = Rectangle(lower_left = p1, upper_right = p2)
-    print(rect)
-    p3 = Point(4, 8)
-    print(f"Is {p3} within this rectangle??")
-    print(rect.contains(p3))
-
-    p4 = Point(0, 0)
-    print(f"Is {p4} within this rectangle??")
-    print(rect.contains(p4))
+    pass
 
