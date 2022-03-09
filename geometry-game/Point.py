@@ -1,4 +1,4 @@
-
+import math
 
 class Point:
 
@@ -17,9 +17,17 @@ class Point:
         return f"Point(x ={self.x}, y={self.y})"
 
 
+    def distance_from(self, new_point: "Point"):
+        dist_squared = (new_point.x - self.x)**2 + (new_point.y - self.y)**2
+        return math.sqrt(dist_squared)
+
+
+
+
 
 if __name__ == "__main__":
 
     foo = Point(3, 5)
     print(foo)
-    print(type(foo))
+    bar = foo.distance_from(new_point = Point(6, 9))
+    print(f"Distance between two points: {bar}")
