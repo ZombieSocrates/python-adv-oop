@@ -13,16 +13,20 @@ if __name__ == "__main__":
     print(f"For this game, imagine a {rectangle}")
     print("Your mission is to guess a point inside this rectangle!")
 
+    new_x = float(input("Please choose an x coordinate for your point: "))
+    new_y = float(input("Now please choose a y coordinate for your point: "))
 
-    while True:
+    new_point = Point(x = new_x, y = new_y)
 
-        new_x = float(input("Please choose an x coordinate for your point: "))
-        new_y = float(input("Now please choose a y coordinate for your point: "))
-
-        new_point = Point(x = new_x, y = new_y)
-
-        if rectangle.contains(new_point):
-            print("Congratulations! You win!")
+    if rectangle.contains(new_point):
+        print("Congratulations! You Win!")
+        print("\nNow, try guessing the area of the rectangle")
+        guess = float(input("I think the area is... "))
+        if guess == rectangle.area():
+            print("Shoop-da-Woop! You Win!")
         else:
-            print("Woof...Please try again...")
+            print(f"I'm sorry, the area is actually {rectangle.area()}")
+
+    else:
+        print("Woof...Please Try Again...")
 
