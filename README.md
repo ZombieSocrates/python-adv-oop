@@ -1,5 +1,5 @@
 # python-adv-oop
-Code work for Udemy: Python OOP with 10 real-world programs
+Code work for Udemy: Python OOP with 10 real-world programs. Files for this course located [here.](https://github.com/pythonprocourse/files)
 
 
 # structure
