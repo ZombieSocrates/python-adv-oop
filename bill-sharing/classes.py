@@ -1,3 +1,5 @@
+from fpdf import FPDF
+from pprint import pprint
 from typing import List
 
 
@@ -21,10 +23,16 @@ class Bill:
         return f"Bill(amount={self.amount}, time_period={self.time_period})"
 
 
-    def split(self):
-        '''if bill splitting works how I think it does, it makes more sense 
-        to take an array of renters'''
-        pass
+    def split(self, renters: List["Renter"]) -> dict:
+        '''Takes in a list of renters and splits the bill amount across those 
+        renters based on how many days they pay for. Returns a dict with
+        each renter's name as keys and amount owed as values'''
+        total_days = sum([p.days for p in renters])
+        split_info = {}
+        for renter in renters:
+            bill_proportion = renter.days / total_days * self.amount
+            split_info[renter.name] = bill_proportion
+        return split_info
 
 
 class Renter:
@@ -49,15 +57,23 @@ class PdfReport:
     def __init__(self, bill: "Bill", renters: List["Renter"]):
         self.bill = bill 
         self.renter_list = renters
+        self.heading = "Shared Bill Breakdown"
 
 
-    def get_name(self):
+    def filename(self):
         bill_period = self.bill.time_period.replace(" ","-")
         return f"SharedBill_{bill_period}.pdf"
 
 
     def generate(self):
-        pass
+        pdf = FPDF(orientation = "P", unit = "pt", format = "A4")
+        pdf.add_page()
+        pdf.set_font(family = "Helvetica", size = 24, style = "B")
+        pdf.cell(w = 100, h = 80, txt = self.heading, border = 1, 
+            align = "C", ln = 1)
+        pdf.cell(w = 50, h = 40, txt = f"Period: {self.bill.time_period}",
+         border = 1)
+        pdf.output(self.filename())
 
 
 
@@ -71,6 +87,15 @@ if __name__ == "__main__":
     print(test_bill)
     print(dude_one)
     print(dude_two)
+
+    split_bill = test_bill.split(renters = [dude_one, dude_two])
+    print("Here's the split bill")
+    pprint(split_bill)
+
+    pdf_report = PdfReport(bill = test_bill, renters = [dude_one, dude_two])
+
+    print("generating test PDF ...")
+    pdf_report.generate()
 
 
 
