@@ -107,13 +107,7 @@ class PdfReport:
 
 if __name__ == "__main__":
 
-    test_bill = Bill(amount = 420.69, time_period = "February 2022")
-    dude_one = Renter(name = "Colonel Sanders", days_in_apt = 21)
-    dude_two = Renter(name = "Seymour Skinner", days_in_apt = 14)
-
-    pdf_report = PdfReport(bill = test_bill, renters = [dude_one, dude_two])
-    print("generating test PDF ...")
-    pdf_report.generate(auto_open = True)
+    pass
 
 
 
