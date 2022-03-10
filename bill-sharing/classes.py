@@ -1,5 +1,7 @@
+import pathlib
+import webbrowser
+
 from fpdf import FPDF
-from pprint import pprint
 from typing import List
 
 
@@ -58,6 +60,7 @@ class PdfReport:
         self.bill = bill 
         self.renter_list = renters
         self.heading = "Shared Bill Breakdown"
+        self.img_path = "files/house.png"
 
 
     def filename(self):
@@ -65,15 +68,39 @@ class PdfReport:
         return f"SharedBill_{bill_period}.pdf"
 
 
-    def generate(self):
+    def write_report_header(self, pdf_obj:FPDF, img_size:int = 80, 
+        heading_size:int = 24, subheading_size:int = 20,
+        fontfam:str = "Helvetica"):
+        pdf_obj.image(self.img_path, w = img_size, h = img_size)
+        pdf_obj.set_font(family = fontfam, size = heading_size, style = "B")
+        pdf_obj.cell(w = 0, h = 60, txt = self.heading, border = "B", 
+            align = "C", ln = 1)
+        pdf_obj.set_font(family = fontfam, size = subheading_size, style = "B")
+        pdf_obj.cell(w = 0, h = 40, txt = f"Period: {self.bill.time_period}",
+         border = "B", ln = 2)
+
+
+    def write_payment_details(self, pdf_obj:FPDF, fontsize:int = 16, 
+        fontfam:str = "Helvetica"):
+        pdf_obj.set_font(family = fontfam, size = fontsize)
+        payment_summary = self.bill.split(renters = self.renter_list)
+        for renter_name, amount_owed in payment_summary.items():
+            line_text = f"{renter_name}: ${amount_owed:,.2f}"
+            pdf_obj.cell(w = 0, h = 30, txt = line_text, border = 0, ln = 1)
+
+
+    def generate(self, auto_open = False):
         pdf = FPDF(orientation = "P", unit = "pt", format = "A4")
         pdf.add_page()
-        pdf.set_font(family = "Helvetica", size = 24, style = "B")
-        pdf.cell(w = 100, h = 80, txt = self.heading, border = 1, 
-            align = "C", ln = 1)
-        pdf.cell(w = 50, h = 40, txt = f"Period: {self.bill.time_period}",
-         border = 1)
+        self.write_report_header(pdf_obj = pdf)
+        pdf.ln(h = 40)
+        self.write_payment_details(pdf_obj = pdf)
         pdf.output(self.filename())
+        if auto_open:
+            abs_path = pathlib.Path(self.filename()).resolve()
+            browser_path = f"file://{str(abs_path)}"
+            print(f"Opening {browser_path}")
+            webbrowser.open(browser_path)
 
 
 
@@ -84,18 +111,9 @@ if __name__ == "__main__":
     dude_one = Renter(name = "Colonel Sanders", days_in_apt = 21)
     dude_two = Renter(name = "Seymour Skinner", days_in_apt = 14)
 
-    print(test_bill)
-    print(dude_one)
-    print(dude_two)
-
-    split_bill = test_bill.split(renters = [dude_one, dude_two])
-    print("Here's the split bill")
-    pprint(split_bill)
-
     pdf_report = PdfReport(bill = test_bill, renters = [dude_one, dude_two])
-
     print("generating test PDF ...")
-    pdf_report.generate()
+    pdf_report.generate(auto_open = True)
 
 
 
