@@ -26,9 +26,8 @@ pip install -r requirements.txt
 pythom demo.py	
 ```
 
-## project two setup and demo
-**math painter**: Draw squares and rectangles on a canvas by entering numbers in the command line. Generates an output impage at the end of it all.
-
+## project three setup and demo
+**Math Painter**: Draw squares and rectangles on a canvas by entering numbers in the command line. Generates an output impage at the end of it all using numpy and the [python imaging library](https://pillow.readthedocs.io/en/stable/index.html). In retrospect, it would have been better to call this, like, shape painter or something like that because theer isn't actually a ton of math involved :P
 
 ```
 cd math-painter
@@ -38,3 +37,9 @@ pip install -r requirements.txt
 python main.py
 ```
 
+## project four setup and deemo
+WIP
+
+```
+
+```
