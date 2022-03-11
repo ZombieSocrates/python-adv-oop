@@ -26,3 +26,15 @@ pip install -r requirements.txt
 pythom demo.py	
 ```
 
+## project two setup and demo
+**math painter**: Draw squares and rectangles on a canvas by entering numbers in the command line. Generates an output impage at the end of it all.
+
+
+```
+cd math-painter
+pyenv virtualenv 3.8.2 math-painter
+pyenv acticvate math-painter
+pip install -r requirements.txt
+python main.py
+```
+
