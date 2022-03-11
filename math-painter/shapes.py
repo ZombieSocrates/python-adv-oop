@@ -21,6 +21,18 @@ class Rectangle:
         self.color = self._validate_color(color = color)
 
 
+    def __str__(self):
+        shape = self.__class__.__name__
+        location = f"located at ({self.x}, {self.y})"
+        size = f"{self.h}px tall and {self.w}px wide"
+        return f"{shape} that is {location} and is {size}."
+
+
+    def __repr__(self):
+        shape_args = f"x={self.x}, y={self.y}, height={self.h}, width={self.w}"
+        return f"Rectangle({shape_args}, color={self.color})"
+
+
     def draw(self, canvas:"Canvas"):
         w_end = self.x + self.w
         h_end = self.y + self.h
@@ -67,6 +79,11 @@ class Square(Rectangle):
     def __init__(self, x:int, y:int, side:int, color:List[int]):
         super().__init__(x = x, y = y, height = side, width = side, 
             color = color)
+
+
+    def __repr__(self):
+        shape_args = f"x={self.x}, y={self.y}, side={self.h}"
+        return f"Square({shape_args}, color={self.color})"
 
 
 

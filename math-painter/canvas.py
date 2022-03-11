@@ -9,12 +9,21 @@ class Canvas:
     '''
 
     def __init__(self, height:int, width:int, color:str = "white"):
-        self.h = height
-        self.w = width
+        self.h = self._validate_canvas_size(canvas_param = height)
+        self.w = self._validate_canvas_size(canvas_param = width)
         self.default_filename = "canvas.png" 
         self.arr = np.zeros(shape = (self.h, self.w, 3), dtype=np.uint8)
         self.color = color
         self.clear()
+
+    
+    def __str__(self):
+        dims = f"{self.h}px by {self.w}px"
+        return f"Canvas that is {dims} and colored {self.color}."
+
+
+    def __repr__(self):
+        return f"Canvas(height={self.h}, width={self.w}, color={self.color})"
 
 
     def set_color(self, new_color):
@@ -40,6 +49,15 @@ class Canvas:
             outname = f"{outname}.png"
         outdata = Image.fromarray(obj = self.arr, mode = "RGB")
         outdata.save(outname)
+
+
+    def _validate_canvas_size(self, canvas_param):
+        '''Any dimension supplied needs to be a positive integer. Returns th 
+        dimension if all checks are passed, throws a ValueError otherwise.
+        '''
+        if isinstance(canvas_param, int) and canvas_param >= 1:
+            return canvas_param
+        raise ValueError("Canvas dimensions must be positive integers...")
 
 
 
