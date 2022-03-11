@@ -1,10 +1,16 @@
-import numpy as np 
 from typing import List 
 
 
 class Rectangle:
     '''A rectangle with a single color that is oriented on its upper left 
-    corner and can be drawn on a Canvas object.
+    corner and can be drawn on a Canvas object. Just to be super clear about 
+    this:
+
+        x: the COLUMN that contains the rectangle's upper-left corner.
+        y: the ROW that contains the rectangle's upper-left corner.
+        height: how many rows the rectangle spans, top to bottom.
+        width: how many columns the reectangle spans, left to right.
+        color: a 3-item list representing the RGB fill of the rectangle.
     '''
 
     def __init__(self, x:int, y:int, height:int, width:int, color:List[int]):
@@ -16,8 +22,8 @@ class Rectangle:
 
 
     def draw(self, canvas:"Canvas"):
-        w_end = self.w + 1
-        h_end = self.h + 1
+        w_end = self.x + self.w
+        h_end = self.y + self.h
         canvas.arr[self.y:h_end, self.x:w_end] = self.color
 
 
@@ -54,7 +60,8 @@ class Rectangle:
 
 class Square(Rectangle):
     '''A square with a single color that is oriented on its upper left corner 
-    and can be drawn on a Canvas object.
+    and can be drawn on a Canvas object. Uses the same coordinate system 
+    described in the Rectangle class.
     '''
 
     def __init__(self, x:int, y:int, side:int, color:List[int]):
