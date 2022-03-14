@@ -4,13 +4,15 @@
         padding: 10
         spacing: 5
         Image:
-            source: 'images/sad-shrek.jpg'
+            id: img
             size_hint_y: 0.8
         TextInput:
+            id: txt
             size_hint_y: 0.1
         Button:
             text: 'Search for an Image'
             size_hint_y: 0.1
+            on_press: root.search_image()
 
 
 <RootWidget>:
