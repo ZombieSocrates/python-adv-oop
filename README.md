@@ -38,8 +38,11 @@ python main.py
 ```
 
 ## project four setup and deemo
-WIP
+**Webcam Photo Sharer:** My guess is that this app lets python control your webcam. More details to come
 
 ```
-
+cd webcam-sharer
+pyenv virtualenv 3.8.2 webcam
+pyenv activate webcam
+pip install -r requirements.txt
 ```
